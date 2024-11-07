@@ -14,7 +14,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <name>gemini-parent</name>
   <description>
     The parent project to Gemini and related sub-projects.
@@ -37,7 +36,6 @@
       <timezone>America/Los_Angeles</timezone>
     </developer>
   </developers>
-
   <modules>
     <module>gemini</module>
     <module>gemini-resin</module>
@@ -48,8 +46,8 @@
     <module>gemini-log4j2</module>
     <module>gemini-logback</module>
     <module>gemini-log4j12</module>
+    <module>test-artifact-id</module>
   </modules>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -97,7 +95,6 @@
     <connection>scm:git:https://github.com/KhulnaSoft/gemini.git</connection>
     <developerConnection>scm:git:git@github.com:KhulnaSoft/gemini.git</developerConnection>
   </scm>
-
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -110,7 +107,6 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -202,7 +198,8 @@
         <groupId>org.javassist</groupId>
         <artifactId>javassist</artifactId>
         <version>${javassist.version}</version>
-        <optional>false</optional> <!-- case: when not actually scanning with javassist or if using {@link Reflections.collect()} -->
+        <optional>false</optional>
+        <!-- case: when not actually scanning with javassist or if using {@link Reflections.collect()} -->
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -302,10 +299,7 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <dependencies>
-  </dependencies>
-
+  <dependencies/>
   <build>
     <pluginManagement>
       <plugins>
@@ -478,5 +472,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
