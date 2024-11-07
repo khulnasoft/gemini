@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="basic">
+  <requiredProperties>
+    <requiredProperty key="geminiVersion">
+      <defaultValue>${project.parent.version}</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="groupId">
+      <defaultValue>com.khulnasoft</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="package" />
+  </requiredProperties>
+
+  <fileSets>
+    <fileSet filtered="true" packaged="true">
+      <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.java</include>
+        </includes>
+    </fileSet>
+    <fileSet filtered="true" packaged="false">
+      <directory></directory>
+      <includes>
+        <exclude>pom.xml</exclude>
+        <include>README.md</include>
+        <include>Dockerfile</include>
+        <include>db/migration/**/*</include>
+        <include>log4j2.xml</include>
+        <include>src/main/webapp/WEB-INF/configuration/**/*</include>
+        <include>src/main/webapp/WEB-INF/web.xml</include>
+        <include>src/main/webapp/WEB-INF/resin.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="false" packaged="false">
+      <directory></directory>
+      <includes>
+        <include>src/main/resources/**/*</include>
+        <include>src/test/resources/**/*</include>
+        <include>src/main/webapp/WEB-INF/**/*</include>
+      </includes>
+      <excludes>
+        <exclude>src/main/webapp/WEB-INF/web.xml</exclude>
+        <exclude>src/main/webapp/WEB-INF/configuration/**</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+</archetype-descriptor>
