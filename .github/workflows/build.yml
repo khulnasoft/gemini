@@ -8,10 +8,18 @@ jobs:
       # Checkout code
       - uses: actions/checkout@v3
 
-      # Setup Java 11
+      # Setup Java 11 (with distribution specified)
       - uses: actions/setup-java@v3
         with:
           java-version: 11
+          distribution: 'adoptopenjdk'  # Specify the JDK distribution
+          java-package: jdk
+          check-latest: false
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for security
+          overwrite-settings: true
+          job-status: success
 
       # Cache Maven dependencies
       - name: Cache local Maven repository
