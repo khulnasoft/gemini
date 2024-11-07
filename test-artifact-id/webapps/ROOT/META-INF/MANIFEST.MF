@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven 3.9.9
+Built-By: gitpod
+Build-Jdk: 11.0.24
+Specification-Title: A custom Gemini project
+Specification-Version: 1.0
+Specification-Vendor: KhulnaSoft, Ltd.
+Implementation-Title: A custom Gemini project
+Implementation-Version: 1.0
+Implementation-Vendor-Id: com.khulnasoft
+Implementation-Vendor: KhulnaSoft, Ltd.
+Implementation-URL: https://github.com/KhulnaSoft/gemini/test-artifact-i
+ d
+geminiVersion: 1.0
+

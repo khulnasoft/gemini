@@ -1,0 +1,47 @@
+<resin xmlns="http://caucho.com/ns/resin"
+       xmlns:resin="http://caucho.com/ns/resin/core">
+
+  <cluster id="">
+
+    <web-app-default xmlns:resin="urn:java:com.caucho.resin" xmlns:gemini="urn:java:com.khulnasoft.gemini">
+      <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>com.caucho.servlets.FileServlet</servlet-class>
+      </servlet>
+
+      <!-- Enable GZIP compression. -->
+      <filter filter-name="gzip" filter-class="com.caucho.filters.GzipFilter"> 
+        <init> 
+          <use-vary>true</use-vary> 
+        </init> 
+      </filter> 
+      <filter-mapping url-pattern='*' filter-name="gzip" />
+    </web-app-default>
+
+    <log name="" level="config" path="stdout:" timestamp="[%H:%M:%S.%s] " />
+
+    <server id="">
+      <jvm-arg>-Xms1g</jvm-arg>
+      <jvm-arg>-Xmx1g</jvm-arg>
+      <http port="8080" />
+    </server>
+
+    <host id="">
+      <web-app id="/" root-directory="src/main/webapp">
+        <multipart-form enable="true" />
+        <!-- Use UTF-8 for everything. -->
+        <character-encoding>UTF-8</character-encoding>
+        
+        <servlet>
+          <servlet-name>Server</servlet-name>
+          <servlet-class>foo.test.Server</servlet-class>
+        </servlet>
+        <servlet-mapping>
+          <servlet-name>Server</servlet-name>
+          <url-pattern>*</url-pattern>
+        </servlet-mapping>
+      </web-app>
+    </host>
+    
+  </cluster>
+</resin>
