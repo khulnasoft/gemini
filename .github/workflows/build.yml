@@ -1,13 +1,19 @@
 name: build
-on: [ push, pull_request ]
+on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      # Checkout code
+      - uses: actions/checkout@v3
+
+      # Setup Java 11
+      - uses: actions/setup-java@v3
         with:
           java-version: 11
+
+      # Cache Maven dependencies
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -15,14 +21,19 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
+      # Build Gemini
       - name: Build Gemini
         run: mvn clean compile install -Dgpg.skip
+
+      # Set up host name (for integration tests)
       - name: Setup host name
         run: echo "127.0.0.1   GITHUB_ACTIONS" | sudo tee -a /etc/hosts
+
+      # Setup and generate integration test project
       - name: Setup integration test
         run: |
           mvn archetype:update-local-catalog
-          # Reading the version from the pom from https://stackoverflow.com/a/50906059
           GEMINI_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           mvn archetype:generate -DarchetypeVersion=$GEMINI_VERSION -DarchetypeCatalog=local \
             -DarchetypeGroupId=com.khulnasoft -DarchetypeArtifactId=gemini-resin-archetype \
@@ -32,20 +43,11 @@ jobs:
           curl -sL http://caucho.com/download/resin-4.0.63.tar.gz | tar xz --strip-components=1
           rm -rf webapps/*
           cp target/test-artifact-id-1.0.war webapps/ROOT.war
+
+      # Run integration test with retry logic
       - name: Run integration test
         run: |
           cd test-artifact-id
           java -jar lib/resin.jar console &
-          sleep 10
-          n=1;
-          while true; do
-            curl localhost:8080 && break || {
-              if [[ $n -lt 10 ]]; then
-                ((n++))
-                sleep 10
-              else
-                exit 1
-              fi
-            }
-          done;
-
+          # Wait for Resin server to start and become responsive
+          curl --retry 10 --retry-delay 10 --retry-connrefused localhost:8080 || exit 1
